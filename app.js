@@ -151,15 +151,15 @@ app.get('*.html', (req, res) => {
   const pathWithoutHtml = req.path.replace('.html', '');
   res.redirect(pathWithoutHtml);
 });
-
+// Static files (AFTER routes)
+app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/', viewRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/categories', categoryRoutes);
 
-// Static files (AFTER routes)
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Ignore browser/devtools requests
 app.use((req, res, next) => {
