@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Product Card | Click Power</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: auto !important;
+      overflow-y: auto !important;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+      padding: 1.2rem 5%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      border-radius: 12px;
+      background-color: #fff;
+      padding: 0px;
+      filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4));
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 3rem;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #1e293b;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      font-size: 1.1rem;
+      display: inline-block;
+    }
+
+    .nav-links a.active {
+      color: #2563eb;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a.active::before {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: #2563eb;
+    }
+
+    .nav-links a:hover::before {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-login,
+    .btn-signup {
+      padding: 0.6rem 1.6rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      text-align: center;
+      border: 2px solid #2563eb;
+      transition: all 0.3s;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .btn-login {
+      color: #2563eb;
+      background: transparent;
+    }
+
+    .btn-signup {
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      color: #fff;
+      border: 2px solid #2563eb;
+    }
+
+    .btn-login:hover,
+    .btn-signup:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-login:hover {
+      color: #fff;
+      background: #2563eb;
+      border-color: #2563eb;
+    }
+
+    .btn-signup:hover {
+      background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+    }
+
+    .menu-toggle span {
+      width: 30px;
+      height: 3px;
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(8px, -8px);
+    }
+
+    .category-drawer {
+      position: fixed;
+      top: 100px;
+      right: 5%;
+      z-index: 900;
+    }
+
+    .drawer-toggle {
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      color: #fff;
+      font-size: 1.12rem;
+      padding: 0.67rem 2rem 0.67rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75em;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+
+    .drawer-toggle:hover {
+      background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%);
+      transform: translateY(-2px) scale(1.045);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .drawer-list {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 10px);
+      min-width: 290px;
+      background: #ffffff;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      padding: 1.2rem 1.35rem 1.25rem;
+      animation: fadeDown 0.3s;
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-25px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .drawer-list ul {
+      padding: 0;
+      margin: .6rem 0 0 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.9rem;
+      justify-content: flex-start;
+    }
+
+    .drawer-list li {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(14, 165, 233, 0.08) 100%);
+      color: #2563eb;
+      padding: 0.48rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      margin: 0.1rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .drawer-list li:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      color: #fff;
+      border-color: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    .drawer-title {
+      color: #2563eb;
+      font-size: 1.16em;
+      font-weight: bold;
+      margin-bottom: .9em;
+      display: flex;
+      align-items: center;
+      gap: 0.45em;
+    }
+
+    .drawer-close {
+      position: absolute;
+      top: 13px;
+      right: 20px;
+      color: #1e293b;
+      font-size: 1.23em;
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0.70;
+      transition: opacity 0.17s;
+    }
+
+    .drawer-close:hover {
+      opacity: 1;
+      color: #2563eb;
+    }
+
+    @media(max-width: 768px) {
+      .category-drawer {
+        top: 80px;
+        right: 3%;
+      }
+
+      .drawer-list {
+        right: 0;
+        min-width: 280px;
+      }
+    }
+
+    @media(max-width: 500px) {
+      .category-drawer {
+        right: 50%;
+        transform: translateX(50%);
+      }
+
+      .drawer-list {
+        right: 50%;
+        transform: translateX(50%);
+        min-width: 96vw;
+        padding: 1.15rem 2vw;
+      }
+
+      .drawer-toggle {
+        font-size: .95rem;
+      }
+    }
+
+    @media (max-width: 968px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 3rem 5%;
+        gap: 2rem;
+        transition: left 0.4s ease;
+        border-top: 1px solid rgba(37, 99, 235, 0.15);
+        z-index: 999;
+      }
+
+      .nav-links.active {
+        left: 0;
+      }
+
+      .nav-links li {
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-actions {
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+        width: 100%;
+      }
+
+      .btn-login,
+      .btn-signup {
+        width: 100%;
+        padding: 0.8rem 1.6rem;
+      }
+
+      .nav-links a {
+        font-size: 1.5rem;
+        display: block;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 0.7rem 3%;
+      }
+
+      .main-section {
+        padding: 2rem 4% 2rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+
+      .logo-icon {
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    .main-section {
+      margin-top: 100px;
+      min-height: calc(100vh - 100px);
+      padding: 4rem 5% 2rem;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.02) 0%, rgba(14, 165, 233, 0.02) 100%);
+    }
+
+    .products-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (max-width: 1200px) {
+      .products-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .products-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .product-card {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      margin: 0 auto;
+      transition: all 0.4s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    .product-imgbox {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #f8fafc;
+    }
+
+    .product-img-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+      border-radius: 16px 16px 0 0;
+    }
+
+    .product-imgbox img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px 16px 0 0;
+      position: relative;
+    }
+
+    .product-card-content {
+      padding: 1.4rem 1.2rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .product-name {
+      font-size: 1.22rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 0.45rem 0;
+    }
+
+    .product-country-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .product-country {
+      background: rgba(37, 99, 235, 0.1);
+      color: #2563eb;
+      font-weight: 800;
+      border-radius: 8px;
+      padding: 0.41rem 1.09rem;
+      font-size: .99rem;
+    }
+
+    .product-price {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 1.04rem;
+      padding: 0.43rem 1.08rem;
+    }
+
+    .product-summary {
+      color: #475569;
+      font-size: 1.01rem;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+    }
+
+    .details-btn {
+      margin-top: 0.9rem;
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.68rem 1.55rem;
+      font-weight: 800;
+      font-size: 1.08rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .details-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="###" class="logo">
+        <img src="../public/img/logo.png" alt="Click Power Logo" class="logo-icon">
+        <span>Click Power</span>
+      </a>
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html" class="active">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <div class="nav-actions">
+          <a href="login.html" class="btn-login">Login</a>
+          <a href="signup.html" class="btn-signup">Signup</a>
+        </div>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Category Drawer - Fixed Position -->
+  <div class="category-drawer">
+    <button class="drawer-toggle" id="drawerToggle">📁 Categories</button>
+    <div class="drawer-list" id="drawerList">
+      <span class="drawer-close" id="drawerClose">&times;</span>
+      <div class="drawer-title">📋 All Categories</div>
+      <ul>
+        <li>Motors</li>
+        <li>Sensors</li>
+        <li>Encoders</li>
+        <li>Relays</li>
+        <li>Contactors</li>
+        <li>PLCs</li>
+        <li>HMIs</li>
+        <li>Power Supplies</li>
+        <li>VFDs</li>
+        <li>Switches</li>
+        <li>Breakers</li>
+        <li>Connectors</li>
+        <li>Timers</li>
+        <li>Controllers</li>
+        <li>Cables</li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="main-section">
+    <div class="products-container">
+      <!-- Product Card 1 -->
+      <div class="product-card">
+        <div class="product-imgbox">
+          <div class="product-img-overlay"></div>
+          <img src="https://placehold.co/600x400/2563eb/ffffff?text=GX-300+Encoder" alt="GX-300 Encoder">
+        </div>
+        <div class="product-card-content">
+          <h3 class="product-name">GX-300 Industrial Encoder</h3>
+          <div class="product-country-price">
+            <span class="product-country">Japan</span>
+            <span class="product-price">EGP 5800.00</span>
+          </div>
+          <div class="product-summary">
+            Compact high-precision encoder for automation. Ideal for robust factory use, with Omron support and
+            warranty.
+          </div>
+          <a href="product-details.html" class="details-btn">Details</a>
+        </div>
+      </div>
+
+      <!-- Product Card 2 -->
+      <div class="product-card">
+        <div class="product-imgbox">
+          <div class="product-img-overlay"></div>
+          <img src="https://placehold.co/600x400/0ea5e9/ffffff?text=ZX-500+Motor" alt="ZX-500 Motor">
+        </div>
+        <div class="product-card-content">
+          <h3 class="product-name">ZX-500 Servo Motor</h3>
+          <div class="product-country-price">
+            <span class="product-country">Germany</span>
+            <span class="product-price">EGP 12500.00</span>
+          </div>
+          <div class="product-summary">
+            High-torque servo motor with precise control. Perfect for industrial robotics and CNC applications.
+          </div>
+          <a href="product-details.html" class="details-btn">Details</a>
+        </div>
+      </div>
+
+      <!-- Product Card 3 -->
+      <div class="product-card">
+        <div class="product-imgbox">
+          <div class="product-img-overlay"></div>
+          <img src="https://placehold.co/600x400/2563eb/ffffff?text=PLC-200" alt="PLC-200">
+        </div>
+        <div class="product-card-content">
+          <h3 class="product-name">PLC-200 Controller</h3>
+          <div class="product-country-price">
+            <span class="product-country">USA</span>
+            <span class="product-price">EGP 8900.00</span>
+          </div>
+          <div class="product-summary">
+            Programmable logic controller for automation systems. Supports multiple I/O modules and protocols.
+          </div>
+          <a href="product-details.html" class="details-btn">Details</a>
+        </div>
+      </div>
+
+      <!-- Product Card 4 -->
+      <div class="product-card">
+        <div class="product-imgbox">
+          <div class="product-img-overlay"></div>
+          <img src="https://placehold.co/600x400/0ea5e9/ffffff?text=Sensor+X1" alt="Sensor X1">
+        </div>
+        <div class="product-card-content">
+          <h3 class="product-name">Proximity Sensor X1</h3>
+          <div class="product-country-price">
+            <span class="product-country">China</span>
+            <span class="product-price">EGP 450.00</span>
+          </div>
+          <div class="product-summary">
+            Industrial proximity sensor with adjustable range. Water-resistant design for harsh environments.
+          </div>
+          <a href="product-details.html" class="details-btn">Details</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navbar = document.querySelector('.navbar');
+    
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+    
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+    
+    document.addEventListener('click', e => {
+      if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      }
+    });
+    
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+    
+    const drawerToggle = document.getElementById('drawerToggle');
+    const drawerList = document.getElementById('drawerList');
+    const drawerClose = document.getElementById('drawerClose');
+    
+    drawerToggle.addEventListener('click', () => {
+      drawerList.style.display = drawerList.style.display === "block" ? "none" : "block";
+    });
+    
+    drawerClose.addEventListener('click', () => { drawerList.style.display = "none"; });
+    
+    document.addEventListener('click', (e) => {
+      if (!drawerList.contains(e.target) && !drawerToggle.contains(e.target)) {
+        drawerList.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
+</html>

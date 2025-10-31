@@ -1,0 +1,1231 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title About Us - Click Power
+  style.
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #1e293b;
+    overflow-x: hidden;
+    }
+    /* Spline 3D Background */
+    .spline-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    opacity: 0.4;
+    }
+    .spline-background iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    }
+    /* Animated Background Overlay */
+    .bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.95) 100%);
+    pointer-events: none;
+    }
+    .bg-animation::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.03) 2px, transparent 2px);
+    background-size: 50px 50px;
+    animation: moveGrid 20s linear infinite;
+    }
+    @keyframes moveGrid {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+    }
+    /* === Navbar === */
+    .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 1.2rem 5%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+    .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    }
+    .logo {
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    }
+    .logo-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 12px;
+    background-color: #fff;
+    padding: 0px;
+    filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4));
+    transition: transform 0.3s ease;
+    }
+    .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 3rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    }
+    .nav-links a {
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 1.1rem;
+    }
+    .nav-links a.active {
+    color: #2563eb;
+    }
+    .nav-links a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    }
+    .nav-links a.active::before {
+    width: 100%;
+    }
+    .nav-links a:hover {
+    color: #2563eb;
+    transform: translateY(-2px);
+    }
+    .nav-links a:hover::before {
+    width: 100%;
+    }
+    .nav-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    }
+    .btn-login,
+    .btn-signup {
+    padding: 0.6rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px solid #2563eb;
+    cursor: pointer;
+    white-space: nowrap;
+    }
+    .btn-login {
+    background: transparent;
+    color: #2563eb;
+    }
+    .btn-signup {
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    color: #fff;
+    border: 2px solid #2563eb;
+    }
+    .btn-login:hover,
+    .btn-signup:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border-color: #2563eb;
+    transform: translateY(-2px) scale(1.06);
+    }
+    
+    /* User Dropdown Styles */
+    .nav--user {
+    position: relative;
+    }
+    .user-dropdown {
+    position: relative;
+    }
+    .user-dropdown__toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(37, 99, 235, 0.1);
+    border: 2px solid rgba(37, 99, 235, 0.3);
+    border-radius: 25px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #1e293b;
+    }
+    .user-dropdown__toggle:hover {
+    background: rgba(37, 99, 235, 0.15);
+    border-color: #2563eb;
+    transform: translateY(-2px);
+    }
+    .nav__user-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #2563eb;
+    }
+    .user-name {
+    font-size: 1rem;
+    color: #1e293b;
+    }
+    .dropdown-icon {
+    transition: transform 0.3s ease;
+    color: #2563eb;
+    }
+    .user-dropdown.active .dropdown-icon {
+    transform: rotate(180deg);
+    }
+    .user-dropdown__menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    border-radius: 12px;
+    min-width: 220px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+    }
+    .user-dropdown.active .user-dropdown__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    }
+    .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.5rem;
+    color: #1e293b;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    }
+    .dropdown-item:hover {
+    background: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+    }
+    .dropdown-item svg {
+    color: #2563eb;
+    flex-shrink: 0;
+    }
+    .dropdown-divider {
+    height: 1px;
+    background: rgba(37, 99, 235, 0.15);
+    margin: 0.5rem 0;
+    border: none;
+    }
+    .dropdown-item--logout {
+    color: #dc2626;
+    }
+    .dropdown-item--logout:hover {
+    background: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+    }
+    .dropdown-item--logout svg {
+    color: #dc2626;
+    }
+    
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+    }
+    .menu-toggle span {
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    }
+    .menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    }
+    .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    }
+    .menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+    }
+    /* === Page Header === */
+    .page-header {
+    padding: 10rem 5% 4rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+    }
+    .page-header h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInUp 0.8s ease;
+    }
+    .page-header p {
+    font-size: 1.3rem;
+    color: #475569;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+    animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    @keyframes fadeInUp {
+    from {
+    opacity: 0;
+    transform: translateY(30px);
+    }
+    to {
+    opacity: 1;
+    transform: translateY(0);
+    }
+    }
+    /* === About Section === */
+    .about-section {
+    padding: 4rem 5%;
+    position: relative;
+    z-index: 2;
+    }
+    .about-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    }
+    .about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-bottom: 6rem;
+    }
+    .about-text h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+    .about-text p {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #475569;
+    margin-bottom: 1.5rem;
+    }
+    .about-image {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    .about-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(14, 165, 233, 0.2) 100%);
+    z-index: 1;
+    }
+    .about-image img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s ease;
+    }
+    .about-image:hover img {
+    transform: scale(1.05);
+    }
+    /* === Mission Vision Section === */
+    .mission-vision {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-bottom: 6rem;
+    }
+    .mv-card {
+    background: #f8fafc;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 3rem;
+    border-radius: 16px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    }
+    .mv-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    }
+    .mv-card:hover::before {
+    opacity: 1;
+    }
+    .mv-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .mv-card-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.3));
+    }
+    .mv-card h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    }
+    .mv-card p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #475569;
+    }
+    /* === Values Section === */
+    .values-section {
+    margin-bottom: 6rem;
+    }
+    .section-title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 3rem;
+    text-align: center;
+    background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+    .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    }
+    .value-card {
+    background: #f8fafc;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.4s ease;
+    }
+    .value-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .value-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.3));
+    }
+    .value-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+    }
+    .value-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #475569;
+    }
+    /* === Team Section === */
+    .team-section {
+    margin-bottom: 6rem;
+    }
+    .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    }
+    .team-card {
+    background: #f8fafc;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    }
+    .team-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .team-image {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 15px;
+
+    }
+    .team-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.8) 100%);
+    z-index: 1;
+    }
+    .team-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: translate(-50%, -50%); /* بيخليها تتوسّط البوكس تمام */
+    object-position: center 20%; /* هنا ممكن تتحكم بالموضع العمودي */
+    transition: transform 0.5s ease;
+   }
+
+    .team-card:hover .team-image img {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    .team-info {
+    padding: 2rem;
+    text-align: center;
+    }
+    .team-info h4 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+    }
+    .team-info p {
+    color: #2563eb;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    }
+    .team-info span {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.6;
+    display: block;
+    }
+    /* === Footer === */
+    .footer {
+    background: #f8fafc;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 4rem 5% 2rem;
+    position: relative;
+    z-index: 2;
+    }
+    .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+    }
+    .footer-section h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+    .footer-section p,
+    .footer-section a {
+    color: #475569;
+    text-decoration: none;
+    line-height: 2.2;
+    display: block;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    }
+    .footer-section a:hover {
+    color: #2563eb;
+    transform: translateX(5px);
+    }
+    .footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    color: #64748b;
+    font-size: 1rem;
+    }
+    /* === Scroll to top button === */
+    .scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    z-index: 999;
+    }
+    .scroll-top.visible {
+    display: flex;
+    }
+    .scroll-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    }
+    /* === Responsive Design === */
+    @media (max-width: 968px) {
+    .menu-toggle {
+    display: flex;
+    }
+    .nav-links {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 3rem 5%;
+    gap: 2rem;
+    transition: left 0.4s ease;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    z-index: 999;
+    }
+    .nav-links.active {
+    left: 0;
+    }
+    .nav-links li {
+    width: 100%;
+    text-align: center;
+    }
+    .nav-links a {
+    font-size: 1.5rem;
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+    }
+    .nav-actions {
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+    }
+    .btn-login,
+    .btn-signup {
+    width: 100%;
+    padding: 0.8rem 1.6rem;
+    }
+    .user-dropdown__menu {
+    position: static;
+    margin-top: 1rem;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    }
+    .page-header {
+    padding: 8rem 5% 3rem;
+    }
+    .page-header h1 {
+    font-size: 2.8rem;
+    }
+    .page-header p {
+    font-size: 1.15rem;
+    }
+    .about-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    }
+    .mission-vision {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+    }
+    .section-title {
+    font-size: 2.3rem;
+    }
+    .values-section,
+    .team-section {
+    margin-bottom: 4rem;
+    }
+    }
+    @media (max-width: 768px) {
+    .navbar {
+    padding: 1rem 4%;
+    }
+    .logo {
+    font-size: 1.6rem;
+    }
+    .logo-icon {
+    width: 42px;
+    height: 42px;
+    }
+    .page-header {
+    padding: 7rem 4% 2.5rem;
+    }
+    .page-header h1 {
+    font-size: 2.5rem;
+    }
+    .page-header p {
+    font-size: 1.1rem;
+    }
+    .about-section {
+    padding: 3rem 4%;
+    }
+    .about-text h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    }
+    .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+    }
+    .about-image {
+    border-radius: 14px;
+    }
+    .mv-card {
+    padding: 2.5rem 2rem;
+    }
+    .mv-card-icon {
+    font-size: 3.5rem;
+    }
+    .mv-card h3 {
+    font-size: 1.8rem;
+    }
+    .mv-card p {
+    font-size: 1.05rem;
+    }
+    .section-title {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    }
+    .values-grid {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+    }
+    .value-card {
+    padding: 2rem 1.5rem;
+    }
+    .team-grid {
+    gap: 2rem;
+    }
+    .team-image {
+    height: 280px;
+    }
+    .footer {
+    padding: 3rem 4% 1.5rem;
+    }
+    .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    }
+    }
+    @media (max-width: 480px) {
+    .navbar {
+    padding: 0.8rem 3%;
+    }
+    .logo {
+    font-size: 1.4rem;
+    gap: 0.5rem;
+    }
+    .logo-icon {
+    width: 36px;
+    height: 36px;
+    }
+    .page-header {
+    padding: 6rem 3% 2rem;
+    }
+    .page-header h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    }
+    .page-header p {
+    font-size: 1rem;
+    line-height: 1.6;
+    }
+    .about-section {
+    padding: 2rem 3%;
+    }
+    .about-content {
+    gap: 2rem;
+    margin-bottom: 3rem;
+    }
+    .about-text h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+    }
+    .about-text p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    }
+    .about-image {
+    border-radius: 12px;
+    }
+    .mission-vision {
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    }
+    .mv-card {
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    }
+    .mv-card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    }
+    .mv-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    }
+    .mv-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    }
+    .values-section,
+    .team-section {
+    margin-bottom: 3rem;
+    }
+    .section-title {
+    font-size: 1.7rem;
+    margin-bottom: 2rem;
+    }
+    .values-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    }
+    .value-card {
+    padding: 1.8rem 1.3rem;
+    border-radius: 12px;
+    }
+    .value-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    }
+    .value-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    }
+    .value-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    }
+    .team-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    }
+    .team-card {
+    border-radius: 12px;
+    }
+    .team-image {
+    height: 250px;
+    }
+    .team-info {
+    padding: 1.5rem;
+    }
+    .team-info h4 {
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+    }
+    }
+// Background Overlay
+.bg-animation
+// Navbar
+nav#navbar.navbar
+  .nav-container
+    //- Logo
+    a.logo(href='/')
+      img.logo-icon(src='/img/logo.png' alt='Click Power Logo')
+      span Click Power
+    
+    //- Menu Toggle للموبايل
+    #menuToggle.menu-toggle
+      span
+      span
+      span
+    
+    //- Nav Links
+    ul#navLinks.nav-links
+      li
+        a(href='/') 🏠 Home
+      li
+        a(href='/about') ℹ️ About Us
+      li
+        a(href='/cards') 🛒 Products
+      li
+        a(href='/contact') ✉️ Contact
+      
+      //- User Menu أو Login/Signup
+      if user
+        li.nav--user
+          .user-dropdown
+            button.user-dropdown__toggle(type='button')
+              img.nav__user-img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+              span.user-name= user.name.split(' ')[0]
+              svg.dropdown-icon(xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+                polyline(points='6 9 12 15 18 9')
+            
+            .user-dropdown__menu
+              a.dropdown-item(href='/account')
+                svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+                  path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
+                  circle(cx='12' cy='7' r='4')
+                span My Profile
+              
+              
+              
+              hr.dropdown-divider
+              
+              button.dropdown-item.dropdown-item--logout(type='button')
+                svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+                  path(d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4')
+                  polyline(points='16 17 21 12 16 7')
+                  line(x1='21' y1='12' x2='9' y2='12')
+                span Log Out
+      
+      else
+        li.nav-actions
+          a.btn-login(href='/login') ➜] Login
+          a.btn-signup(href='/signup') 👤 Signup
+// Page Header
+section.page-header
+  h1 About Click Power
+  p
+    | Leading the industrial spare parts market for over 20 years with excellence, quality, and innovation
+// About Section
+section.about-section
+  .about-container
+    // Story Section
+    .about-content
+      .about-text
+        h2 Our Story
+        p
+          | Founded in 2009, Click Power began with a simple vision: to provide the highest quality industrial spare
+          | parts at competitive prices to factories and industrial companies across Egypt and the Middle East.
+        p
+          | Over the past two decades, we&apos;ve grown from a small warehouse to a leading supplier with over 5000 parts
+          | in stock, serving more than 500 satisfied clients.
+        p
+          | Our success is built on trust, quality, and an unwavering commitment to customer satisfaction. We partner
+          | with the world&apos;s leading manufacturers to ensure every part we supply meets the highest international
+          | standards.
+      .about-image
+        img(src='/img/chain.jpeg' alt='Our Story')
+    // Mission & Vision
+    .mission-vision
+      .mv-card
+        .mv-card-icon &#x1F3AF;
+        h3 Our Mission
+        p
+          | To empower industries across the Middle East with reliable, high-quality spare parts and exceptional
+          | technical support, enabling them to maintain optimal operational efficiency and achieve their production
+          | goals.
+      .mv-card
+        .mv-card-icon &#x1F680;
+        h3 Our Vision
+        p
+          | To become the most trusted and innovative industrial spare parts supplier in the region, setting new
+          | standards for quality, service, and customer satisfaction in the industrial sector.
+    // Values Section
+    .values-section
+      h2.section-title Our Core Values
+      .values-grid
+        .value-card
+          .value-icon &#x2B50;
+          h4 Quality First
+          p
+            | We never compromise on quality, ensuring every part meets international standards
+        .value-card
+          .value-icon &#x1F91D;
+          h4 Customer Focus
+          p Your success is our success. We&apos;re committed to exceeding expectations
+        .value-card
+          .value-icon &#x1F4A1;
+          h4 Innovation
+          p Continuously improving our services and embracing new technologies
+        .value-card
+          .value-icon &#x1F512;
+          h4 Integrity
+          p Honest, transparent, and ethical in all our business dealings
+        .value-card
+          .value-icon &#x26A1;
+          h4 Efficiency
+          p Fast delivery and responsive service to keep your operations running
+        .value-card
+          .value-icon &#x1F30D;
+          h4 Sustainability
+          p Committed to environmentally responsible business practices
+    // Team Section
+    .team-section
+      h2.section-title Meet Our Manager
+      .team-grid
+        .team-card
+          .team-image
+            img(src='/img/zaki.jpeg' alt='CEO')
+          .team-info
+            h4 Zaki Mohamed
+            p Chief Executive Officer
+            span 20+ years of experience in industrial supply chain management
+        
+// Footer
+footer.footer
+  .footer-content
+    .footer-section
+      h3 About Company
+      p
+        | We are a leading company in providing high-quality industrial spare parts at competitive prices. We serve
+        | over 2000 clients across Egypt and the Middle East
+    .footer-section
+      h3 Quick Links
+      a(href='/') Home
+      a(href='about') About Us
+      a(href='cards') Products
+      a(href='contact') Contact
+    .footer-section
+      h3 Contact Us
+      p &#x1F4DE; +20 1091401354
+      p &#x1F4E7; zaki@clickpower.net
+      p &#x1F4CD; Cairo, Egypt
+    .footer-section
+      h3 Working Hours
+      p Saturday - Thursday: 8 AM - 6 PM
+      p Friday: Closed
+  .footer-bottom
+    p &copy; 2025 Click Power. All rights reserved
+button#scrollTop.scroll-top &uarr;
+script.
+  // Mobile Menu Toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+  
+  // Close menu when clicking on a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+    });
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      menuToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+    }
+  });
+  
+  // User Dropdown Toggle
+  const userDropdown = document.querySelector('.user-dropdown');
+  const userToggle = document.querySelector('.user-dropdown__toggle');
+  
+  if (userToggle) {
+    userToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdown.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!userDropdown.contains(e.target)) {
+        userDropdown.classList.remove('active');
+      }
+    });
+  }
+  
+  // Logout Functionality
+  const logoutBtn = document.querySelector('.dropdown-item--logout');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/v1/users/logout', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (res.ok) {
+          // Show success message (optional)
+          alert('Logged out successfully!');
+          // Redirect to home page
+          window.location.href = '/';
+        } else {
+          alert('Error logging out. Please try again.');
+        }
+      } catch (err) {
+        console.error('Logout error:', err);
+        alert('Error logging out. Please try again.');
+      }
+    });
+  }
+  
+  // Navbar scroll effect
+  const navbar = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+  
+  // Scroll to top button
+  const scrollTop = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollTop.classList.add('visible');
+    } else {
+      scrollTop.classList.remove('visible');
+    }
+  });
+  
+  scrollTop.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+  
+  // Animate numbers in stats section
+  const animateNumbers = () => {
+    const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+    statNumbers.forEach(stat => {
+      const target = parseInt(stat.getAttribute('data-target'));
+      const duration = 2000;
+      const increment = target / (duration / 16);
+      let current = 0;
+      
+      const updateNumber = () => {
+        current += increment;
+        if (current < target) {
+          stat.textContent = Math.floor(current).toLocaleString();
+          requestAnimationFrame(updateNumber);
+        } else {
+          stat.textContent = target.toLocaleString();
+        }
+      };
+      updateNumber();
+    });
+  };
+  
+  // Trigger number animation when stats section is in view
+  const statsSection = document.querySelector('.stats');
+  const observerOptions = {
+    threshold: 0.5
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateNumbers();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  if (statsSection) {
+    observer.observe(statsSection);
+  }
+  
+  // Remove Spline logo watermark and adjust for mobile
+  window.addEventListener('load', function () {
+    setTimeout(() => {
+      const splineViewer = document.querySelector('spline-viewer');
+      if (splineViewer && splineViewer.shadowRoot) {
+        const logo = splineViewer.shadowRoot.querySelector('#logo');
+        if (logo) logo.remove();
+        
+        // Adjust Spline scale on mobile
+        if (window.innerWidth <= 768) {
+          splineViewer.style.transform = 'scale(1.2)';
+          splineViewer.style.transformOrigin = 'center center';
+        }
+      }
+    }, 1000);
+  });
+  
+  // Adjust Spline on window resize
+  window.addEventListener('resize', function () {
+    const splineViewer = document.querySelector('spline-viewer');
+    if (splineViewer) {
+      if (window.innerWidth <= 768) {
+        splineViewer.style.transform = 'scale(1.2)';
+      } else {
+        splineViewer.style.transform = 'scale(1)';
+      }
+    }
+  });

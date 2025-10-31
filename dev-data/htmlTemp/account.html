@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>User Settings | Click Power</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background: #ffffff;
+      font-family: 'Inter', sans-serif;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+    .main {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3vw 2vw;
+      gap: 3vw;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(14, 165, 233, 0.03) 100%);
+    }
+    .user-view {
+      display: flex;
+      gap: 3vw;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .user-view__menu {
+      min-width: 220px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      padding: 2.3rem 1.1rem 2.1rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      align-items: stretch;
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+    .side-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .side-nav li {
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+    .side-nav li:last-child { margin-bottom: 0; }
+    .side-nav--active,
+    .side-nav li:hover {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+    }
+    .side-nav a {
+      color: #475569;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.04rem;
+      letter-spacing: .14px;
+      display: flex;
+      align-items: center;
+      gap: 0.8em;
+      padding: 0.9em 1.1em;
+      border-radius: 8px;
+      transition: all 0.22s ease;
+    }
+    .side-nav .side-nav--active a,
+    .side-nav a:hover {
+      color: #2563eb;
+    }
+    .side-nav svg {
+      width: 20px;
+      height: 20px;
+      fill: #94a3b8;
+      transition: fill 0.22s;
+    }
+    .side-nav--active svg, .side-nav a:hover svg {
+      fill: #2563eb;
+    }
+    .admin-nav {
+      margin-top: 1.5rem;
+      border-top: 1px solid rgba(37, 99, 235, 0.15);
+      padding-top: 1.5rem;
+    }
+    .admin-nav__heading {
+      color: #2563eb;
+      font-size: 1.09rem;
+      margin: 0 0 0.7rem 0.2em;
+      font-weight: 900;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+    .user-view__content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    /* Collapsible Section Styles */
+    .settings-section {
+      background: #ffffff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .settings-section:hover {
+      border-color: rgba(37, 99, 235, 0.3);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .section-header {
+      padding: 1.8rem 2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    
+    .section-header:hover {
+      background: rgba(37, 99, 235, 0.05);
+    }
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .section-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+    
+    .section-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: white;
+    }
+    
+    .heading-secondary {
+      font-size: 1.28rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      letter-spacing: .5px;
+    }
+    
+    .section-toggle {
+      width: 24px;
+      height: 24px;
+      fill: #2563eb;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .section-toggle.active {
+      transform: rotate(180deg);
+    }
+    
+    .section-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 2rem;
+    }
+    
+    .section-content.active {
+      max-height: 2000px;
+      padding: 0 2rem 2rem 2rem;
+    }
+    
+    .section-badge {
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 900;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      margin-left: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .ma-bt-md { margin-bottom: 1.1rem !important; }
+    .ma-bt-lg { margin-bottom: 1.9rem !important;}
+    .form { width: 100%; }
+    .form__group { margin-bottom: 1.45rem;}
+    .form__group:last-child { margin-bottom: 0;}
+    .form__label {
+      display: block;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.59rem;
+      font-size: 1.07rem;
+      letter-spacing: 0.1px;
+    }
+    .form__input {
+      width: 100%;
+      padding: 0.75rem 1.1rem;
+      border-radius: 8px;
+      border: 2px solid rgba(37, 99, 235, 0.2);
+      background: #f8fafc;
+      color: #1e293b;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .form__input::placeholder {
+      color: #94a3b8;
+    }
+    .form__input:focus { 
+      border-color: #2563eb; 
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .form__photo-upload {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      margin-bottom: 1.1rem;
+    }
+    .form__user-photo {
+      width: 70px; 
+      height: 70px;
+      border-radius: 50%;
+      border: 3px solid #2563eb;
+      object-fit: cover;
+      background: #f8fafc;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+    }
+    .btn-text {
+      color: #2563eb;
+      background: none;
+      border: none;
+      outline: none;
+      font-weight: 900;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.98em;
+      margin-left: .17em;
+      transition: color 0.15s;
+    }
+    .btn-text:hover { color: #0ea5e9;}
+    .btn {
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      color: #ffffff;
+      font-weight: 900;
+      padding: 0.7rem 2.0rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.04rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+    .btn.btn--green { background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);}
+    .btn.btn--green:hover { 
+      background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%); 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+    .btn.btn--small { padding: 0.48rem 1.2rem; font-size: 0.99rem; border-radius: 8px;}
+    .btn.btn--secondary {
+      background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+      color: #fff;
+    }
+    .btn.btn--secondary:hover {
+      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+      transform: translateY(-2px);
+    }
+    .form__group.right, .form__group .right {text-align: right;}
+    
+    .form__buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      border-radius: 12px;
+      padding: 1.3rem;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+    
+    .stat-label {
+      color: #475569;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    
+    /* Mobile Responsive */
+    @media(max-width:900px){
+      .main {
+        padding: 2rem 1rem;
+      }
+      .user-view {
+        flex-direction: column; 
+        align-items: stretch;
+      }
+      .user-view__menu {
+        min-width: unset; 
+        width: 100%; 
+        margin-bottom: 2rem;
+        padding: 1.5rem 1rem;
+        position: static;
+      }
+      .user-view__content {
+        width: 100%;
+      }
+      .side-nav a {
+        font-size: 1rem;
+        padding: 0.8em 1em;
+      }
+      .admin-nav__heading {
+        font-size: 1rem;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .heading-secondary {
+        font-size: 1.15rem;
+      }
+    }
+    
+    @media(max-width:600px){
+      .main {
+        padding: 1rem 0.5rem;
+      }
+      .settings-section {
+        border-radius: 12px;
+        margin-bottom: 1rem;
+      }
+      .section-header {
+        padding: 1.2rem 1rem;
+        flex-wrap: nowrap;
+      }
+      .section-content.active {
+        padding: 0 1rem 1.5rem 1rem;
+      }
+      .section-title {
+        gap: 0.7rem;
+        min-width: 0;
+      }
+      .heading-secondary {
+        font-size: 1.05rem;
+      }
+      .section-icon {
+        width: 26px;
+        height: 26px;
+      }
+      .section-toggle {
+        width: 20px;
+        height: 20px;
+      }
+      .form__label {
+        font-size: 0.98rem;
+      }
+      .form__input {
+        padding: 0.7rem 1rem;
+        font-size: 0.95rem;
+      }
+      .form__photo-upload {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.8rem;
+      }
+      .btn {
+        width: 100%;
+        padding: 0.75rem 1.3rem;
+        font-size: 0.98rem;
+      }
+      .btn.btn--small {
+        padding: 0.65rem 1.1rem;
+        font-size: 0.93rem;
+      }
+      .form__buttons {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .side-nav a {
+        font-size: 0.95rem;
+        padding: 0.7em 0.9em;
+      }
+      .side-nav svg {
+        width: 18px;
+        height: 18px;
+      }
+      .user-view__menu {
+        padding: 1.2rem 0.9rem;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      .stat-card {
+        padding: 1.1rem;
+      }
+      .stat-value {
+        font-size: 1.7rem;
+      }
+      .stat-label {
+        font-size: 0.9rem;
+      }
+      .section-badge {
+        font-size: 0.68rem;
+        padding: 0.22rem 0.55rem;
+        margin-left: 0.4rem;
+      }
+    }
+
+    @media(max-width:400px){
+      .main {
+        padding: 0.8rem 0.4rem;
+      }
+      .settings-section {
+        border-radius: 10px;
+      }
+      .section-header {
+        padding: 1rem 0.8rem;
+      }
+      .section-content.active {
+        padding: 0 0.8rem 1.2rem 0.8rem;
+      }
+      .heading-secondary {
+        font-size: 0.95rem;
+      }
+      .section-icon {
+        width: 24px;
+        height: 24px;
+      }
+      .form__input {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.8rem;
+      }
+      .stat-value {
+        font-size: 1.5rem;
+      }
+      .user-view__menu {
+        padding: 1rem 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="main">
+    <div class="user-view">
+      <nav class="user-view__menu">
+        <div class="admin-nav">
+          <h5 class="admin-nav__heading">Admin</h5>
+          <ul class="side-nav">
+            <li>
+              <a href="#">
+                <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+                Manage products
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                Manage users
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+      <div class="user-view__content">
+        <!-- Personal Information with Stats Inside -->
+        <div class="settings-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title">
+              <div class="section-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+              </div>
+              <h2 class="heading-secondary">Your account settings</h2>
+            </div>
+            <svg class="section-toggle active" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+          </div>
+          <div class="section-content active">
+            <!-- Personal Info Form -->
+            <form class="form form-user-data">
+              <div class="form__group form__photo-upload">
+                <img class="form__user-photo" src="/img/users/default.jpg" alt="User Photo">
+                <input type="file" id="photo" accept="image/*" style="display: none;" onchange="previewPhoto(this)">
+                <label for="photo" class="btn-text">Choose new photo</label>
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="name">Name</label>
+                <input id="name" class="form__input" type="text" value="Jonas Schmedtmann" required>
+              </div>
+              <div class="form__group ma-bt-md">
+                <label class="form__label" for="email">Email address</label>
+                <input id="email" class="form__input" type="email" value="admin@natours.io" required>
+              </div>
+              <div class="form__group right">
+                <button type="submit" class="btn btn--small btn--green">Save settings</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Security & Password -->
+        <div class="settings-section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title">
+              <div class="section-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+              </div>
+              <h2 class="heading-secondary">Password change</h2>
+            </div>
+            <svg class="section-toggle" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+          </div>
+          <div class="section-content">
+            <form class="form form-user-password">
+              <div class="form__group">
+                <label class="form__label" for="password-current">Current password</label>
+                <input id="password-current" class="form__input" type="password" placeholder="••••••••" required minlength="8">
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="password">New password</label>
+                <input id="password" class="form__input" type="password" placeholder="••••••••" required minlength="8">
+              </div>
+              <div class="form__group ma-bt-lg">
+                <label class="form__label" for="password-confirm">Confirm password</label>
+                <input id="password-confirm" class="form__input" type="password" placeholder="••••••••" required minlength="8">
+              </div>
+              <div class="form__group">
+                <div class="form__buttons">
+                  <button type="submit" class="btn btn--small btn--green">Save password</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Toggle section open/close
+    function toggleSection(header) {
+      const content = header.nextElementSibling;
+      const toggle = header.querySelector('.section-toggle');
+      
+      content.classList.toggle('active');
+      toggle.classList.toggle('active');
+    }
+
+    // Photo preview
+    function previewPhoto(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.querySelector('.form__user-photo').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Form submissions
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (this.classList.contains('form-user-password')) {
+          const newPass = document.getElementById('password').value;
+          const confirmPass = document.getElementById('password-confirm').value;
+          
+          if (newPass !== confirmPass) {
+            alert('Passwords do not match!');
+            return;
+          }
+        }
+        
+        alert('Settings saved successfully! ✓');
+        
+        // Close the section after saving
+        const section = this.closest('.section-content');
+        if (section && section.classList.contains('active')) {
+          const header = section.previousElementSibling;
+          toggleSection(header);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
