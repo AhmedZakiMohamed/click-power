@@ -37,6 +37,8 @@ app.use(
     credentials: true, // 🔥 لازم عشان الكوكي تبعت مع كل request
   }),
 );
+app.set('trust proxy', 1);
+
 app.use((req, res, next) => {
   const allowedOrigins = [
     "http://localhost:3000",
