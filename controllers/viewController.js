@@ -16,7 +16,7 @@ exports.getHome = (req, res) => {
 };
 
 exports.getAbout = (req, res) => {
-  res.status(200).render('about', {
+  res.status(200).render('About', {
     title: 'About',
     user: res.locals.user, // ✅ مهم جداً
   });
