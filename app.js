@@ -42,7 +42,7 @@ setInterval(() => {
   fetch('https://click-power-2.onrender.com')
     .then(() => console.log('Ping sent to keep server awake ⏰'))
     .catch((err) => console.error('Ping failed:', err.message));
-}, 5 * 60 * 1000); // كل 5 دقايق
+}, 10 * 60 * 1000); // كل 5 دقايق
 
 
 app.use((req, res, next) => {
