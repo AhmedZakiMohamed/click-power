@@ -238,7 +238,10 @@ passport.use(
     {
       clientID: config.google_client_id,
       clientSecret: config.google_client_secret,
-      callbackURL: 'http://localhost:4000/api/v1/users/google/callback',
+      callbackURL:
+        process.env.NODE_ENV === 'production'
+          ? 'https://click-power-2.onrender.com/api/v1/users/google/callback'
+          : 'http://localhost:4000/api/v1/users/google/callback',     
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, cb) => {
