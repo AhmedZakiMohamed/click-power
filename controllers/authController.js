@@ -19,25 +19,18 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
-
-  const cookieOptions = {
+  const cookieOption = {
     expires: new Date(
-      Date.now() + config.jwtCookieExpiresIn * 24 * 60 * 60 * 1000
+      Date.now() + config.jwtCookieExpiresIn * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
-    sameSite: 'none', // 🔥 لازم كده علشان الكوكي تشتغل من دومين تاني أو HTTPS
-    secure: config.env === 'production', // 🔒 تبقى true في Render
+    secure: false,
+    sameSite: 'lax',
   };
-
-  res.cookie('jwt', token, cookieOptions);
-
+  if (config.env === 'production') cookieOption.secure = true;
+  res.cookie('jwt', token, cookieOption);
   user.password = undefined;
-
-  res.status(statusCode).json({
-    status: 'success',
-    token,
-    data: { user },
-  });
+  res.status(statusCode).json({ status: 'success', token, data: { user } });
 };
 
 
