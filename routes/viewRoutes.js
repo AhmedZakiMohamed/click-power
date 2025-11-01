@@ -12,7 +12,7 @@ router.use(authController.isLoggedIn);
 
 // Public routes
 router.get("/", viewController.getHome);
-router.get("/about", viewController.getAbout);
+router.get("/About", viewController.getAbout);
 router.get("/contact", viewController.getContact);
 router.get("/cards", viewController.getCards);
 router.get("/product/:slug", viewController.getDetails);
