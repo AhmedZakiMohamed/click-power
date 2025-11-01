@@ -1,0 +1,1250 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Contact Us - Click Power
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+  style.
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #1e293b;
+    overflow-x: hidden;
+    }
+    .bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.95) 100%);
+    pointer-events: none;
+    }
+    .bg-animation::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.03) 2px, transparent 2px);
+    background-size: 50px 50px;
+    animation: moveGrid 20s linear infinite;
+    }
+    @keyframes moveGrid {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+    }
+    /* === Navbar === */
+    .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 1.2rem 5%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+    .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    }
+    .logo {
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    }
+    .logo-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 12px;
+    background-color: #fff;
+    padding: 0px;
+    filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4));
+    transition: transform 0.3s ease;
+    }
+    .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 3rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    }
+    .nav-links a {
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 1.1rem;
+    }
+    .nav-links a.active {
+    color: #2563eb;
+    }
+    .nav-links a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    }
+    .nav-links a.active::before,
+    .nav-links a:hover::before {
+    width: 100%;
+    }
+    .nav-links a:hover {
+    color: #2563eb;
+    transform: translateY(-2px);
+    }
+    .nav-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    }
+    .btn-login,
+    .btn-signup {
+    padding: 0.6rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px solid #2563eb;
+    cursor: pointer;
+    white-space: nowrap;
+    }
+    .btn-login {
+    background: transparent;
+    color: #2563eb;
+    }
+    .btn-signup {
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    color: #fff;
+    border: 2px solid #2563eb;
+    }
+    .btn-login:hover,
+    .btn-signup:hover {
+    color: #fff;
+    border-color: #2563eb;
+    transform: translateY(-2px) scale(1.06);
+    }
+    .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+    }
+    .menu-toggle span {
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    }
+    .menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    }
+    .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    }
+    .menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+    }
+    /* User Dropdown Styles */
+    .nav--user {
+    position: relative;
+    }
+    .user-dropdown {
+    position: relative;
+    }
+    .user-dropdown__toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(37, 99, 235, 0.1);
+    border: 2px solid rgba(37, 99, 235, 0.3);
+    border-radius: 25px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #1e293b;
+    }
+    .user-dropdown__toggle:hover {
+    background: rgba(37, 99, 235, 0.15);
+    border-color: #2563eb;
+    transform: translateY(-2px);
+    }
+    .nav__user-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #2563eb;
+    }
+    .user-name {
+    font-size: 1rem;
+    color: #1e293b;
+    }
+    .dropdown-icon {
+    transition: transform 0.3s ease;
+    color: #2563eb;
+    }
+    .user-dropdown.active .dropdown-icon {
+    transform: rotate(180deg);
+    }
+    .user-dropdown__menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    border-radius: 12px;
+    min-width: 220px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+    }
+    .user-dropdown.active .user-dropdown__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    }
+    .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.5rem;
+    color: #1e293b;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    }
+    .dropdown-item:hover {
+    background: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+    }
+    .dropdown-item svg {
+    color: #2563eb;
+    flex-shrink: 0;
+    }
+    .dropdown-divider {
+    height: 1px;
+    background: rgba(37, 99, 235, 0.15);
+    margin: 0.5rem 0;
+    border: none;
+    }
+    .dropdown-item--logout {
+    color: #dc2626;
+    }
+    .dropdown-item--logout:hover {
+    background: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+    }
+    .dropdown-item--logout svg {
+    color: #dc2626;
+    }
+    /* === Page Header === */
+    .page-header {
+    padding: 10rem 5% 4rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+    }
+    .page-header h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInUp 0.8s ease;
+    }
+    .page-header p {
+    font-size: 1.3rem;
+    color: #475569;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+    animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    @keyframes fadeInUp {
+    from {
+    opacity: 0;
+    transform: translateY(30px);
+    }
+    to {
+    opacity: 1;
+    transform: translateY(0);
+    }
+    }
+    /* === Contact Section === */
+    .contact-section {
+    padding: 4rem 5%;
+    position: relative;
+    z-index: 2;
+    }
+    .contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    }
+    .contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    }
+    .contact-card {
+    background: #f8fafc;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 2.5rem;
+    border-radius: 16px;
+    transition: all 0.4s ease;
+    }
+    .contact-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .contact-card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.3));
+    }
+    .contact-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+    }
+    .contact-card p {
+    font-size: 1.1rem;
+    color: #475569;
+    line-height: 1.8;
+    }
+    .contact-card a {
+    color: #2563eb;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    }
+    .contact-card a:hover {
+    color: #0ea5e9;
+    }
+    /* === Map Section === */
+    .map-section {
+    padding: 4rem 5%;
+    position: relative;
+    z-index: 2;
+    }
+    .map-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #f8fafc;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    height: 450px;
+    }
+    .map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: grayscale(20%);
+    }
+    /* === FAQ Section === */
+    .faq-section {
+    padding: 4rem 5% 6rem;
+    position: relative;
+    z-index: 2;
+    }
+    .faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+    }
+    .section-title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 3rem;
+    text-align: center;
+    background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+    .faq-item {
+    background: #f8fafc;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+    border-color: rgba(37, 99, 235, 0.3);
+    }
+    .faq-question {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    }
+    .faq-question h4 {
+    font-size: 1.2rem;
+    color: #1e293b;
+    font-weight: 600;
+    padding-right: 1rem;
+    }
+    .faq-icon {
+    font-size: 1.5rem;
+    color: #2563eb;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    }
+    .faq-item.active .faq-icon {
+    transform: rotate(180deg);
+    }
+    .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 2rem 1.5rem;
+    }
+    .faq-answer p {
+    color: #475569;
+    line-height: 1.8;
+    font-size: 1rem;
+    }
+    /* === Footer === */
+    .footer {
+    background: #f8fafc;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 4rem 5% 2rem;
+    position: relative;
+    z-index: 2;
+    }
+    .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+    }
+    .footer-section h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+    .footer-section p,
+    .footer-section a {
+    color: #475569;
+    text-decoration: none;
+    line-height: 2.2;
+    display: block;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    }
+    .footer-section a:hover {
+    color: #2563eb;
+    transform: translateX(5px);
+    }
+    .footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    color: #64748b;
+    font-size: 1rem;
+    }
+    /* === Scroll to Top Button === */
+    .scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    z-index: 999;
+    }
+    .scroll-top.visible {
+    display: flex;
+    }
+    .scroll-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    }
+    .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 2rem;
+    }
+    .social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    text-decoration: none;
+    }
+    .social-link:hover {
+    transform: translateY(-10px);
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border-color: #2563eb;
+    }
+    /* === Responsive Design === */
+    @media (max-width: 968px) {
+      /* في @media (max-width: 968px) */
+    .user-dropdown__menu {
+    position: static;
+    margin-top: 1rem;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    }
+    .menu-toggle {
+    display: flex;
+    }
+    .nav-links {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 3rem 5%;
+    gap: 2rem;
+    transition: left 0.4s ease;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    z-index: 999;
+    }
+    .nav-links.active {
+    left: 0;
+    }
+    .nav-links li {
+    width: 100%;
+    text-align: center;
+    }
+    .nav-links a {
+    font-size: 1.5rem;
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+    }
+    .nav-actions {
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+    }
+    .btn-login,
+    .btn-signup {
+    width: 100%;
+    padding: 0.8rem 1.6rem;
+    }
+    .page-header {
+    padding: 8rem 5% 3rem;
+    }
+    .page-header h1 {
+    font-size: 2.8rem;
+    }
+    .page-header p {
+    font-size: 1.15rem;
+    }
+    .contact-info {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .section-title {
+    font-size: 2.3rem;
+    }
+    .map-container {
+    height: 350px;
+    }
+    }
+    @media (max-width: 768px) {
+    .navbar {
+    padding: 1rem 4%;
+    }
+    .logo {
+    font-size: 1.6rem;
+    }
+    .logo-icon {
+    width: 42px;
+    height: 42px;
+    }
+    .page-header {
+    padding: 7rem 4% 2.5rem;
+    }
+    .page-header h1 {
+    font-size: 2.5rem;
+    }
+    .page-header p {
+    font-size: 1.1rem;
+    }
+    .contact-section {
+    padding: 3rem 4% 4rem;
+    }
+    .contact-info {
+    gap: 1.5rem;
+    }
+    .contact-card {
+    padding: 2rem 1.5rem;
+    }
+    .contact-card-icon {
+    font-size: 2.5rem;
+    }
+    .contact-card h3 {
+    font-size: 1.3rem;
+    }
+    .contact-card p {
+    font-size: 1rem;
+    }
+    .map-section {
+    padding: 3rem 4%;
+    }
+    .map-container {
+    height: 300px;
+    border-radius: 12px;
+    }
+    .faq-section {
+    padding: 3rem 4% 4rem;
+    }
+    .section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    }
+    .faq-question {
+    padding: 1.2rem 1.5rem;
+    }
+    .faq-question h4 {
+    font-size: 1.1rem;
+    }
+    .faq-item.active .faq-answer {
+    padding: 0 1.5rem 1.2rem;
+    }
+    .footer {
+    padding: 3rem 4% 1.5rem;
+    }
+    .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    }
+    .scroll-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    }
+    }
+    @media (max-width: 480px) {
+    .navbar {
+    padding: 0.8rem 3%;
+    }
+    .logo {
+    font-size: 1.4rem;
+    gap: 0.5rem;
+    }
+    .logo-icon {
+    width: 36px;
+    height: 36px;
+    }
+    .page-header {
+    padding: 6rem 3% 2rem;
+    }
+    .page-header h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    }
+    .page-header p {
+    font-size: 1rem;
+    line-height: 1.6;
+    }
+    .contact-section {
+    padding: 2rem 3% 3rem;
+    }
+    .contact-info {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    }
+    .contact-card {
+    padding: 1.5rem 1.2rem;
+    border-radius: 12px;
+    }
+    .contact-card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+    }
+    .contact-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    }
+    .contact-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    }
+    .map-section {
+    padding: 2rem 3%;
+    }
+    .map-container {
+    height: 250px;
+    border-radius: 12px;
+    }
+    .faq-section {
+    padding: 2rem 3% 3rem;
+    }
+    .section-title {
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
+    }
+    .faq-item {
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    }
+    .faq-question {
+    padding: 1rem 1.2rem;
+    gap: 0.8rem;
+    }
+    .faq-question h4 {
+    font-size: 1rem;
+    padding-right: 0.5rem;
+    }
+    .faq-icon {
+    font-size: 1.2rem;
+    }
+    .faq-item.active .faq-answer {
+    padding: 0 1.2rem 1rem;
+    }
+    .faq-answer p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    }
+    .footer {
+    padding: 2rem 3% 1.2rem;
+    }
+    .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+    margin-bottom: 2rem;
+    }
+    .footer-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    }
+    .footer-section p,
+    .footer-section a {
+    font-size: 0.95rem;
+    line-height: 2;
+    }
+    .footer-bottom {
+    padding-top: 1.5rem;
+    font-size: 0.9rem;
+    }
+    .scroll-top {
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    }
+    .nav-links {
+    padding: 2rem 4%;
+    gap: 1.5rem;
+    }
+    .nav-links a {
+    font-size: 1.3rem;
+    padding: 0.8rem;
+    }
+    .btn-login,
+    .btn-signup {
+    font-size: 0.95rem;
+    }
+    }
+    @media (max-width: 360px) {
+    .logo {
+    font-size: 1.2rem;
+    }
+    .logo-icon {
+    width: 32px;
+    height: 32px;
+    }
+    .page-header {
+    padding: 5.5rem 3% 1.5rem;
+    }
+    .page-header h1 {
+    font-size: 1.7rem;
+    }
+    .page-header p {
+    font-size: 0.95rem;
+    }
+    .contact-card {
+    padding: 1.3rem 1rem;
+    }
+    .contact-card-icon {
+    font-size: 2rem;
+    }
+    .contact-card h3 {
+    font-size: 1.1rem;
+    }
+    .contact-card p {
+    font-size: 0.9rem;
+    }
+    .map-container {
+    height: 220px;
+    }
+    .section-title {
+    font-size: 1.5rem;
+    }
+    .faq-question h4 {
+    font-size: 0.95rem;
+    }
+    .faq-answer p {
+    font-size: 0.9rem;
+    }
+    .footer-section h3 {
+    font-size: 1.2rem;
+    }
+    .footer-section p,
+    .footer-section a {
+    font-size: 0.9rem;
+    }
+    }
+.bg-animation
+// Navbar
+nav#navbar.navbar
+  .nav-container
+    //- Logo
+    a.logo(href='/')
+      img.logo-icon(src='/img/logo.png' alt='Click Power Logo')
+      span Click Power
+    
+    //- Menu Toggle للموبايل
+    #menuToggle.menu-toggle
+      span
+      span
+      span
+    
+    //- Nav Links
+    ul#navLinks.nav-links
+      li
+        a(href='/') 🏠 Home
+      li
+        a(href='/about') ℹ️ About Us
+      li
+        a(href='/cards') 🛒 Products
+      li
+        a(href='/contact') ✉️ Contact
+      
+      //- User Menu أو Login/Signup
+      if user
+        li.nav--user
+          .user-dropdown
+            button.user-dropdown__toggle(type='button')
+              img.nav__user-img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+              span.user-name= user.name.split(' ')[0]
+              svg.dropdown-icon(xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+                polyline(points='6 9 12 15 18 9')
+            
+            .user-dropdown__menu
+              a.dropdown-item(href='/account')
+                svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+                  path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
+                  circle(cx='12' cy='7' r='4')
+                span My Profile
+              
+              
+              
+              hr.dropdown-divider
+              
+              button.dropdown-item.dropdown-item--logout(type='button')
+                svg(xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+                  path(d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4')
+                  polyline(points='16 17 21 12 16 7')
+                  line(x1='21' y1='12' x2='9' y2='12')
+                span Log Out
+      
+      else
+        li.nav-actions
+          a.btn-login(href='/login') ➜] Login
+          a.btn-signup(href='/signup') 👤 Signup
+// Page Header
+section.page-header
+  h1 Get In Touch
+  p Have questions? We&apos;re here to help. Contact our expert team today
+// Contact Section
+section.contact-section
+  .contact-container
+    .contact-info
+      .contact-card
+        .contact-card-icon &#x1F4DE;
+        h3 Phone
+        p
+          a(href='tel:+201091401354') +201091401354
+        p
+          a(href='tel:+201234567891') +20225178331
+        p(style='margin-top: 0.5rem; font-size: 0.9rem;') Available 24/7 for urgent inquiries
+      .contact-card
+        .contact-card-icon &#x1F4E7;
+        h3 Email
+        p
+          a(href='mailto:zaki@clickpower.net') zaki@clickpower.net
+        p
+          a(href='mailto:zakimohamed334@gmail.com') zakimohamed334@gmail.com
+        p(style='margin-top: 0.5rem; font-size: 0.9rem;') We&apos;ll respond within 24 hours
+      .contact-card
+        .contact-card-icon &#x1F4CD;
+        h3 Address
+        p Building 2, Entrance 3, Al-Arayes Buildings, Saqr Quraish, New 
+        p Maadi, Cairo, Egypt
+        p Postal Code: 11686
+
+        p(style='margin-top: 0.5rem; font-size: 0.9rem;') Visit us: Sat-Thu, 8 AM - 6 PM
+      .contact-card
+        .contact-card-icon &#x23F0;
+        h3 Working Hours
+        p Saturday - Thursday: 8:00 AM - 6:00 PM
+        p Friday: Closed
+        p(style='margin-top: 0.5rem; font-size: 0.9rem;') Emergency support available 24/7
+// Map Section
+section.map-section
+  .map-container
+    iframe(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d345.44847586966484!2d31.28640132728164!3d29.981047054715564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145839d3e9e72183%3A0x270c4003ccad0b80!2sClick%20Power!5e0!3m2!1sen!2seg!4v1697440000000!5m2!1sen!2seg' allowfullscreen='' loading='lazy')
+// FAQ Section
+section.faq-section
+  .faq-container
+    h2.section-title Frequently Asked Questions
+    //
+      <div class="faq-item">
+      <div class="faq-question">
+      <h4>What is your delivery time?</h4>
+      <span class="faq-icon">▼</span>
+      </div>
+      <div class="faq-answer">
+      <p>Most items in stock are delivered within 24-48 hours across Egypt. For special orders or items
+      not in stock, delivery typically takes 5-7 business days. Express delivery options are available
+      for urgent requirements.</p>
+      </div>
+      </div>
+    .faq-item
+      .faq-question
+        h4 Do you provide warranties on your products?
+        span.faq-icon &#x25BC;
+      .faq-answer
+        p
+          | Yes, all our products come with manufacturer warranties ranging from 1 to 2 years depending on
+          | the product category. We also offer extended warranty options and comprehensive after-sales
+          | support.
+    .faq-item
+      .faq-question
+        h4 Can you help with technical specifications?
+        span.faq-icon &#x25BC;
+      .faq-answer
+        p
+          | Absolutely! Our team of experienced engineers is available 24/7 to provide technical
+          | consultations, help with product selection, and answer any technical questions you may have
+          | about our spare parts.
+    .faq-item
+      .faq-question
+        h4 Do you offer bulk discounts?
+        span.faq-icon &#x25BC;
+      .faq-answer
+        p
+          | Yes, we offer competitive pricing for bulk orders and long-term contracts. Contact our sales team
+          | for a customized quote based on your specific requirements and order volume.
+    .faq-item
+      .faq-question
+        h4 What payment methods do you accept?
+        span.faq-icon &#x25BC;
+      .faq-answer
+        p
+          | We accept various payment methods including bank transfers, credit/debit cards, and installment
+          | plans for corporate clients. We also offer credit payment options for registered companies and
+          | institutions.
+    //
+      <div class="faq-item">
+      <div class="faq-question">
+      <h4>Do you ship internationally?</h4>
+      <span class="faq-icon">▼</span>
+      </div>
+      <div class="faq-answer">
+      <p>Yes, we ship to various countries across the Middle East and North Africa. International shipping
+      costs and delivery times vary depending on the destination. Contact us for specific shipping
+      information to your location.</p>
+      </div>
+      </div>
+// Footer
+footer.footer
+  .social-links
+    a.social-link(href='https://www.linkedin.com/in/zaki-mohamed-67088b37?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app' target='_blank')
+      i.fab.fa-linkedin
+    a.social-link(href='https://www.facebook.com/people/KLICK-POWER/100064185697863/?mibextid=wwXIfr&rdid=MKl3CFKU4bpQPVEp&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17W6CM9igb%2F%3Fmibextid%3DwwXIfr' target='_blank')
+      i.fab.fa-facebook-f
+
+    a.social-link(href='https://www.instagram.com/clickpower11?utm_source=qr&igsh=ZTA5MmR4N2UwemRj' target='_blank')
+      i.fab.fa-instagram
+  .footer-content
+    .footer-section
+      h3 About Company
+      p
+        | We are a leading company in providing high-quality industrial spare parts at competitive prices. We
+        | serve over 2000 clients across Egypt and the Middle East
+    .footer-section
+      h3 Quick Links
+      a(href='/') Home
+      a(href='about') About Us
+      a(href='cards') Products
+      a(href='contact') Contact
+    .footer-section
+      h3 Contact Us
+      p &#x1F4DE; +20 1091401354
+      p &#x1F4E7; zaki@clickpower.net
+      p &#x1F4CD; Cairo, Egypt
+    .footer-section
+      h3 Working Hours
+      p Saturday - Thursday: 8 AM - 6 PM
+      p Friday: Closed
+  .footer-bottom
+    p &copy; 2025 Click Power. All rights reserved
+button#scrollTop.scroll-top &uarr;
+script.
+  // Mobile Menu Toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+  
+  // Close menu when clicking on a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+    });
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      menuToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+    }
+  });
+  
+  // User Dropdown Toggle
+  const userDropdown = document.querySelector('.user-dropdown');
+  const userToggle = document.querySelector('.user-dropdown__toggle');
+  
+  if (userToggle) {
+    userToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdown.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!userDropdown.contains(e.target)) {
+        userDropdown.classList.remove('active');
+      }
+    });
+  }
+  
+  // Logout Functionality
+  const logoutBtn = document.querySelector('.dropdown-item--logout');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/v1/users/logout', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (res.ok) {
+          // Show success message (optional)
+          alert('Logged out successfully!');
+          // Redirect to home page
+          window.location.href = '/';
+        } else {
+          alert('Error logging out. Please try again.');
+        }
+      } catch (err) {
+        console.error('Logout error:', err);
+        alert('Error logging out. Please try again.');
+      }
+    });
+  }
+  
+  // Navbar scroll effect
+  const navbar = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+  
+  // Scroll to top button
+  const scrollTop = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollTop.classList.add('visible');
+    } else {
+      scrollTop.classList.remove('visible');
+    }
+  });
+  
+  scrollTop.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+  
+  // Animate numbers in stats section
+  const animateNumbers = () => {
+    const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+    statNumbers.forEach(stat => {
+      const target = parseInt(stat.getAttribute('data-target'));
+      const duration = 2000;
+      const increment = target / (duration / 16);
+      let current = 0;
+      
+      const updateNumber = () => {
+        current += increment;
+        if (current < target) {
+          stat.textContent = Math.floor(current).toLocaleString();
+          requestAnimationFrame(updateNumber);
+        } else {
+          stat.textContent = target.toLocaleString();
+        }
+      };
+      updateNumber();
+    });
+  };
+  
+  // Trigger number animation when stats section is in view
+  const statsSection = document.querySelector('.stats');
+  const observerOptions = {
+    threshold: 0.5
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateNumbers();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  if (statsSection) {
+    observer.observe(statsSection);
+  }
+  
+  // Remove Spline logo watermark and adjust for mobile
+  window.addEventListener('load', function () {
+    setTimeout(() => {
+      const splineViewer = document.querySelector('spline-viewer');
+      if (splineViewer && splineViewer.shadowRoot) {
+        const logo = splineViewer.shadowRoot.querySelector('#logo');
+        if (logo) logo.remove();
+        
+        // Adjust Spline scale on mobile
+        if (window.innerWidth <= 768) {
+          splineViewer.style.transform = 'scale(1.2)';
+          splineViewer.style.transformOrigin = 'center center';
+        }
+      }
+    }, 1000);
+  });
+  
+  // Adjust Spline on window resize
+  window.addEventListener('resize', function () {
+    const splineViewer = document.querySelector('spline-viewer');
+    if (splineViewer) {
+      if (window.innerWidth <= 768) {
+        splineViewer.style.transform = 'scale(1.2)';
+      } else {
+        splineViewer.style.transform = 'scale(1)';
+      }
+    }
+  });
+
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    question.addEventListener('click', () => {
+      item.classList.toggle('active');
+    });
+  });
+
+
+

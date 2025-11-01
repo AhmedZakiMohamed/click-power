@@ -1,0 +1,98 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Stylish Alert Example
+    style.
+      body {
+        font-family: 'Cairo', sans-serif;
+        background: #f6f8fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .alert {
+        position: relative;
+        padding: 16px 22px;
+        min-width: 300px;
+        max-width: 400px;
+        border-radius: 12px;
+        font-weight: 500;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(-30px);
+        animation: fadeSlide 4s ease-in-out forwards;
+      }
+
+      .alert__message {
+        flex: 1;
+      }
+
+      .alert__close {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .alert__close:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+
+      /* 🟢 Success */
+      .alert--success {
+        background: linear-gradient(135deg, #28a745, #20c997);
+      }
+
+      /* 🔴 Error */
+      .alert--error {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+      }
+
+      /* 🟡 Warning */
+      .alert--warning {
+        background: linear-gradient(135deg, #f1c40f, #f39c12);
+      }
+
+      /* ✨ Animation */
+      @keyframes fadeSlide {
+        0% {
+          opacity: 0;
+          transform: translateY(-40px);
+        }
+        10%, 90% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-40px);
+        }
+      }
+
+body(data-alert=alert)
+  if alert
+    - var alertType = 'alert--success';
+    if alert.includes('Error')
+      - alertType = 'alert--error';
+    else if alert.includes('Warning')
+      - alertType = 'alert--warning';
+    .alert(class=alertType id="alertBox")
+      span.alert__message #{alert}
+      button.alert__close(type="button" id="closeAlert") &times;
+
+  script(type="module" src="/js/alert.js")
+  script(type="module" src="/dist/index.js")

@@ -1,0 +1,801 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width,initial-scale=1.0')
+  title Product Details | Click Power
+  link(href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap' rel='stylesheet')
+  style.
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    overflow-x: hidden;
+    }
+    /* === Navbar === */
+    .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 1.2rem 5%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+    .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    }
+    .logo {
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    }
+    .logo-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 12px;
+    background-color: #fff;
+    padding: 0px;
+    filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4));
+    transition: transform 0.3s ease;
+    }
+    .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 3rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    }
+    .nav-links a {
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 1.1rem;
+    }
+    .nav-links a.active {
+    color: #2563eb;
+    }
+    .nav-links a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    }
+    .nav-links a.active::before,
+    .nav-links a:hover::before {
+    width: 100%;
+    }
+    .nav-links a:hover {
+    color: #2563eb;
+    transform: translateY(-2px);
+    }
+    .nav-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    }
+    .btn-login,
+    .btn-signup {
+    padding: 0.6rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px solid #2563eb;
+    cursor: pointer;
+    white-space: nowrap;
+    }
+    .btn-login {
+    background: transparent;
+    color: #2563eb;
+    }
+    .btn-signup {
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    color: #fff;
+    border: 2px solid #2563eb;
+    }
+    .btn-login:hover,
+    .btn-signup:hover {
+    color: #fff;
+    border-color: #2563eb;
+    transform: translateY(-2px) scale(1.06);
+    }
+    .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+    }
+    .menu-toggle span {
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    }
+    .menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    }
+    .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    }
+    .menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+    }
+    /* === Header === */
+    .section-header {
+    margin-top: 80px;
+    position: relative;
+    padding: 0 5% 4rem;
+    }
+    .header__hero {
+    position: relative;
+    height: 330px;
+    overflow: hidden;
+    }
+    .header__hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    filter: brightness(1);
+    box-shadow:  8px 25px rgba(102, 126, 234, 0.15);
+    }
+    .header__hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #2563eb88 0%, #0f172a77 100%);
+    z-index: 2;
+    border-radius: 16px;
+    }
+    .heading-box {
+    position: absolute;
+    left: 50%;
+    top: 69%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 3;
+    width: 96%;
+    padding: 0 1rem;
+    }
+    .heading-primary {
+    font-size: 2.3rem;
+    font-weight: 900;
+    margin-bottom: 0.23em;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .product-info__group {
+    display: flex;
+    justify-content: center;
+    gap: 1.75rem;
+    margin-top: 0.7rem;
+    flex-wrap: wrap;
+    }
+    .product-info__detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(206, 206, 206, 0.52);
+    padding: 0.68rem 1.7rem;
+    border-radius: 8px;
+    font-size: 1.06rem;
+    font-weight: 500;
+    color: #1e293b;
+    }
+    .product-info__icon {
+    width: 1.17rem;
+    height: 1.17rem;
+    fill: #2563eb;
+    }
+    /* === Description Section === */
+    .section-description {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2.2rem;
+    padding: 0 5%;
+    max-width: 1400px;
+    margin: 0 auto 2rem;
+    }
+    .overview-box,
+    .description-box {
+    background: #f7f9fc;
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .overview-box:hover,
+    .description-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(37, 99, 235, 0.15);
+    }
+    .overview-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+    .description-box {
+    display: flex;
+    flex-direction: column;
+    }
+    .heading-secondary {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    }
+    .heading-secondary::before {
+    content: '';
+    width: 4px;
+    height: 28px;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    border-radius: 2px;
+    }
+    .overview-box__group {
+    margin-bottom: 0;
+    }
+    .overview-box__detail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.3rem;
+    font-size: 1.08rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    }
+    .overview-box__detail:hover {
+    background: rgba(37, 99, 235, 0.06);
+    transform: translateX(5px);
+    }
+    .overview-box__detail:last-child {
+    margin-bottom: 0;
+    }
+    .overview-box__icon {
+    width: 1.10rem;
+    height: 1.10rem;
+    fill: #2563eb;
+    }
+    .overview-box__label {
+    color: #2563eb;
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 100px;
+    }
+    .overview-box__text {
+    color: #1e293b;
+    font-weight: 500;
+    }
+    .description__text {
+    color: #475569;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.8;
+    text-align: justify;
+    }
+    .description__text:last-child {
+    margin-bottom: 0;
+    }
+    /* === Pictures Section === */
+    .section-pictures {
+    display: flex;
+    gap: 1.7rem;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5rem 5% 3rem;
+    flex-wrap: wrap;
+    }
+    .picture-box {
+    flex: 1 1 220px;
+    max-width: 290px;
+    }
+    .picture-box__img {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    object-fit: cover;
+    background: #f0f0f5;
+    }
+    /* === Footer === */
+    .footer {
+    background: #f7f9fc;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    padding: 3rem 5% 1.3rem;
+    margin-top: 4rem;
+    font-size: 0.98rem;
+    color: #475569;
+    }
+    .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2.1rem;
+    margin-bottom: 2rem;
+    }
+    .footer-section h3 {
+    margin-bottom: 1.1rem;
+    font-size: 1.11rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+    .footer-section p,
+    .footer-section a {
+    color: #475569;
+    text-decoration: none;
+    line-height: 2;
+    font-size: 0.98rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    }
+    .footer-section a:hover {
+    color: #2563eb;
+    }
+    .footer-bottom {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    color: #64748b;
+    font-size: 0.97rem;
+    }
+    /* === Responsive Design === */
+    /* Tablets */
+    @media (max-width: 968px) {
+    .menu-toggle {
+    display: flex;
+    }
+    .nav-links {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 3rem 5%;
+    gap: 2rem;
+    transition: left 0.4s ease;
+    border-top: 1px solid rgba(37, 99, 235, 0.15);
+    z-index: 999;
+    }
+    .nav-links.active {
+    left: 0;
+    }
+    .nav-links li {
+    width: 100%;
+    text-align: center;
+    }
+    .nav-links a {
+    font-size: 1.5rem;
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+    color: #1e293b;
+    }
+    .nav-actions {
+    width: 100%;
+    flex-direction: column;
+    margin-top: 1rem;
+    }
+    .btn-login,
+    .btn-signup {
+    width: 100%;
+    padding: 0.8rem 1.6rem;
+    }
+    .section-description {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    }
+    }
+    /* Mobile Landscape & Small Tablets */
+    @media (max-width: 768px) {
+    .navbar {
+    padding: 1rem 4%;
+    }
+    .logo {
+    font-size: 1.6rem;
+    }
+    .logo-icon {
+    width: 42px;
+    height: 42px;
+    }
+    .section-header {
+    padding: 0 4% 3rem;
+    }
+    .header__hero {
+    height: 280px;
+    border-radius: 14px;
+    }
+    .header__hero-img,
+    .header__hero-overlay {
+    border-radius: 14px;
+    }
+    .heading-primary {
+    font-size: 2rem;
+    }
+    .product-info__detail {
+    padding: 0.6rem 1.3rem;
+    font-size: 1rem;
+    }
+    .section-description {
+    padding: 0 4% 2rem;
+    }
+    .overview-box,
+    .description-box {
+    padding: 1.8rem 1.2rem;
+    border-radius: 14px;
+    }
+    .section-pictures {
+    padding: 2rem 4%;
+    gap: 1.3rem;
+    }
+    .picture-box {
+    flex: 1 1 180px;
+    max-width: 250px;
+    }
+    .picture-box__img {
+    height: 180px;
+    }
+    .footer {
+    padding: 2.5rem 4% 1.2rem;
+    }
+    .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.8rem;
+    }
+    }
+    /* Mobile Portrait */
+    @media (max-width: 480px) {
+    .navbar {
+    padding: 0.8rem 3%;
+    }
+    .logo {
+    font-size: 1.4rem;
+    gap: 0.5rem;
+    }
+    .logo-icon {
+    width: 36px;
+    height: 36px;
+    }
+    .section-header {
+    margin-top: 70px;
+    padding: 0 3% 2rem;
+    }
+    .header__hero {
+    height: 220px;
+    border-radius: 12px;
+    }
+    .header__hero-img,
+    .header__hero-overlay {
+    border-radius: 12px;
+    }
+    .heading-box {
+    width: 95%;
+    padding: 0 0.5rem;
+    }
+    .heading-primary {
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+    }
+    .product-info__group {
+    gap: 0.8rem;
+    }
+    .product-info__detail {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    flex: 1 1 auto;
+    min-width: 140px;
+    }
+    .product-info__icon {
+    width: 1rem;
+    height: 1rem;
+    }
+    .section-description {
+    padding: 0 3% 1.5rem;
+    gap: 1.2rem;
+    }
+    .overview-box,
+    .description-box {
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    min-width: 100%;
+    }
+    .heading-secondary {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    }
+    .heading-secondary::before {
+    height: 22px;
+    }
+    .overview-box__detail {
+    font-size: 0.95rem;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+    padding: 0.8rem;
+    }
+    .overview-box__label {
+    font-size: 0.9rem;
+    min-width: 85px;
+    }
+    .description__text {
+    font-size: 1rem;
+    margin-bottom: 0.9rem;
+    line-height: 1.65;
+    }
+    .section-pictures {
+    padding: 1.5rem 3%;
+    gap: 1rem;
+    }
+    .picture-box {
+    flex: 1 1 100%;
+    max-width: 100%;
+    }
+    .picture-box__img {
+    height: 200px;
+    border-radius: 10px;
+    }
+    .footer {
+    padding: 2rem 3% 1rem;
+    margin-top: 3rem;
+    }
+    .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    }
+    .footer-section h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.9rem;
+    }
+    .footer-section p,
+    .footer-section a {
+    font-size: 0.92rem;
+    line-height: 1.8;
+    }
+    .footer-bottom {
+    font-size: 0.9rem;
+    }
+    .nav-links {
+    padding: 2rem 4%;
+    gap: 1.5rem;
+    }
+    .nav-links a {
+    font-size: 1.3rem;
+    padding: 0.8rem;
+    }
+    .btn-login,
+    .btn-signup {
+    font-size: 0.95rem;
+    }
+    }
+    /* Extra Small Devices */
+    @media (max-width: 360px) {
+    .logo {
+    font-size: 1.2rem;
+    }
+    .logo-icon {
+    width: 32px;
+    height: 32px;
+    }
+    .header__hero {
+    height: 200px;
+    }
+    .heading-primary {
+    font-size: 1.4rem;
+    }
+    .product-info__detail {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.8rem;
+    min-width: 130px;
+    }
+    .product-info__icon {
+    width: 0.9rem;
+    height: 0.9rem;
+    }
+    .overview-box,
+    .description-box {
+    padding: 1.2rem 0.8rem;
+    }
+    .heading-secondary {
+    font-size: 1.1rem;
+    }
+    .heading-secondary::before {
+    height: 20px;
+    }
+    .overview-box__detail {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+    }
+    .overview-box__label {
+    min-width: 75px;
+    }
+    .description__text {
+    font-size: 0.95rem;
+    }
+    .picture-box__img {
+    height: 180px;
+    }
+    }
+// Navbar
+nav#navbar.navbar
+  .nav-container
+    .logo
+      //- img.logo-icon(src='/img/logo.png' alt='Click Power Logo')
+      a(href='/cards') ↩ All Product
+    //- #menuToggle.menu-toggle
+    //-   span
+    //-   span
+    //-   span
+    //- ul#navLinks.nav-links
+    //-   li
+    //-     a(href='/home') 🏠 Home
+    //-   li
+    //-     a(href='/About') ℹ️ About Us
+    //-   li
+    //-     a(href='/cards') 🛒 Products
+    //-   li
+    //-     a(href='/contact') ✉️ Contact
+
+    //-   if user
+    //-     li.nav-actions
+    //-       a.nav__el.nav__el--logout Log out
+    //-       a.nav__el(href='/me')
+    //-         img.nav__user-img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+    //-         span= user.name.split(' ')[0]
+    //-   else
+    //-     li.nav-actions
+    //-       a.btn-login(href='login') Login
+    //-       a.btn-signup(href='signup') Signup
+
+// Header for Product
+section.section-header
+  .header__hero
+    .header__hero-overlay
+    img.header__hero-img(src=product.imageCover ? `/img/products/${product.imageCover}` : 'https://placehold.co/1200x600/1b1a2b/667eea?text=Product+Image' alt=`${product.name} Image`)
+
+  .heading-box
+    h1.heading-primary= product.name
+    .product-info__group
+      .product-info__detail
+        span 📦
+        span= `SKU: ${product.sku || 'N/A'}`
+      if product.categories && product.categories.length > 0
+        each cat in product.categories
+          .product-info__detail
+            span 📂
+            span Category: #{product.categories.map(c => c.name).join(', ')}
+      .product-info__detail
+        span ✅
+        span In Stock
+      
+section.section-description
+  .overview-box
+    .overview-box__group
+      h2.heading-secondary Seller Info
+      .overview-box__detail
+        span &#x1F464;
+        span.overview-box__label Sales Person
+        span.overview-box__text Zaki Mohamed
+      .overview-box__detail
+        span &#x1F550;
+        span.overview-box__label Available
+        span.overview-box__text Mon-Sat (8am-6pm)
+
+  .description-box
+    h2.heading-secondary About this product
+    if product.description
+      p.description__text= product.description
+    else
+      p.description__text
+        | High-quality industrial product designed for maximum performance and reliability.
+        | Contact us for detailed specifications and technical documentation.
+    if product.warranty || product.delivery
+      p.description__text
+        if product.warranty
+          | Warranty: #{product.warranty}. 
+        if product.delivery
+          | Delivery: #{product.delivery}
+
+section.section-pictures
+  if product.images && product.images.length > 0
+    each img, index in product.images
+      .picture-box
+        img.picture-box__img(src=`/img/products/${img}` alt=`Product Photo ${index + 1}`)
+  else
+    .picture-box
+      img.picture-box__img(src=`/img/products/${product.images[1]}` alt='Product Photo 1')
+    .picture-box
+      img.picture-box__img(src=`/img/products/${product.images[2]}` alt='Product Photo 2')
+    .picture-box
+      img.picture-box__img(src=`/img/products/${product.images[3]}` alt='Product Photo 3')
+footer.footer
+  .footer-content
+    .footer-section
+      h3 About Company
+      p
+        | Click Power provides premium industrial parts for automation. Trusted by 2000+ clients in Egypt &amp;
+        | Middle East.
+    .footer-section
+      h3 Quick Links
+      a(href='/') Home
+      a(href='/cards') Products
+      a(href='/contact') Contact
+      a(href='/about') About Us
+    .footer-section
+      h3 Contact Us
+      p &#x1F4DE; +20 1091401354
+      p &#x1F4E7; zaki@clickpower.net
+      p &#x1F4CD; Cairo, Egypt
+    .footer-section
+      h3 Working Hours
+      p Sat - Thu: 8 AM - 6 PM
+      p Friday: Closed
+  .footer-bottom
+    p &copy; 2025 Click Power. All rights reserved.
+script.
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+  menuToggle.classList.toggle('active');
+  navLinks.classList.toggle('active');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+  menuToggle.classList.remove('active');
+  navLinks.classList.remove('active');
+  });
+  });
+  document.addEventListener('click', (e) => {
+  if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+  menuToggle.classList.remove('active');
+  navLinks.classList.remove('active');
+  }
+  });
